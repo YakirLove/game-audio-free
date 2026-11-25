@@ -38,15 +38,27 @@ python3 "$S/game_audio_free.py" synth claw.grab.success victory
 
 ## 五类声音
 
-| 游戏需要 | 工具 | 使用条件 |
-| --- | --- | --- |
-| 按钮、投币、跳跃、胜利提示 | [plinkfx](https://github.com/maximilianfeix/plinkfx) | 本地合成 WAV，预设音效采用 CC0 |
-| 脚步、齿轮、碰撞、雨声 | [sfx-sources](https://github.com/sxhzju/sfx) | 联网检索，按素材原格式保存；压缩音频验证需要 ffmpeg |
-| 独特机械声、魔法或怪物音效 | [Stable Audio 3 Small-SFX](https://github.com/Stability-AI/stable-audio-3) | 按需安装本地 CLI、取得模型访问并下载权重；Small 支持 CPU，商用须符合[免费社区许可条件](https://stability.ai/license) |
-| 探索、战斗、菜单背景音乐 | [Google Lyria RealTime](https://ai.google.dev/gemini-api/docs/realtime-music-generation) | 云端生成器乐，按目标时长写入立体声 WAV |
-| NPC 台词、新手引导、倒计时播报 | [Gemini TTS](https://ai.google.dev/gemini-api/docs/speech-generation) | 按原文、语言、音色和情绪生成配音 WAV |
+| 游戏需要 | 工具 | 需要 Google 密钥？ | 使用条件 |
+| --- | --- | --- | --- |
+| 按钮、投币、跳跃、胜利提示 | [plinkfx](https://github.com/maximilianfeix/plinkfx) | 无需 | 本地合成 WAV，预设音效采用 CC0 |
+| 脚步、齿轮、碰撞、雨声 | [sfx-sources](https://github.com/sxhzju/sfx) | 无需 | 联网检索，按素材原格式保存；压缩音频验证需要 ffmpeg |
+| 独特机械声、魔法或怪物音效 | [Stable Audio 3 Small-SFX](https://github.com/Stability-AI/stable-audio-3) | 无需 | 按需安装本地 CLI、取得模型访问并下载权重；Small 支持 CPU，商用须符合[免费社区许可条件](https://stability.ai/license) |
+| 探索、战斗、菜单背景音乐 | [Google Lyria RealTime](https://ai.google.dev/gemini-api/docs/realtime-music-generation) | **需要** | 云端生成器乐，按目标时长写入立体声 WAV |
+| NPC 台词、新手引导、倒计时播报 | [Gemini TTS](https://ai.google.dev/gemini-api/docs/speech-generation) | **需要** | 按原文、语言、音色和情绪生成配音 WAV |
 
-两个 Google 脚本共用使用者自己的 `GEMINI_API_KEY`，通过 `uv` 按需准备 Python 3.11+ 和 SDK。若预算仅限免费额度，应使用免费层项目的密钥。Lyria RealTime 在实验期免费且有配额，政策可能调整。默认 Flash TTS 模型有免费层，启用结算的项目可能计费。配额耗尽或模型无权限时，脚本报告原因，已完成的音频仍可使用。[使用命令和模型准备](skills/game-audio-free/references/providers.md) · [Google 定价](https://ai.google.dev/gemini-api/docs/pricing) · [Lyria 实验说明](https://github.com/google-gemini/cookbook/blob/main/quickstarts/Get_started_LyriaRealTime.ipynb)
+## 如何获取 Google API Key
+
+**背景音乐和角色配音共用一把 Gemini API 密钥。** 官方获取地址为 [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)。
+
+1. 用 Google 账号登录。如果页面已经列出默认项目的密钥，可以直接复制。
+2. 如果需要新密钥，点击 **Create API key（创建 API 密钥）**，选择项目，创建后复制密钥。已有 Google Cloud 项目却找不到时，先到 **Dashboard → Projects → Import projects** 导入，再回到密钥页。仅使用免费额度时，选择免费层项目。[Google 官方操作指南](https://ai.google.dev/gemini-api/docs/api-key)
+3. 在本机把密钥设为环境变量 `GEMINI_API_KEY`。macOS 或 Linux 用户可以在 Bash 或 Zsh 终端运行下面这行，粘贴密钥后按回车（输入不会显示），再从同一终端启动 Agent。Windows 用户可在系统的「用户环境变量」中新建同名变量，保存后重新打开 Agent。
+
+```sh
+read -rs GEMINI_API_KEY && export GEMINI_API_KEY
+```
+
+两个 Google 脚本通过 `uv` 按需准备 Python 3.11+ 和 SDK。Lyria RealTime 在实验期免费且有配额，政策可能调整。默认 Flash TTS 模型有免费层，启用结算的项目可能计费。配额耗尽或模型无权限时，脚本报告原因，已完成的音频仍可使用。[使用命令和模型准备](skills/game-audio-free/references/providers.md) · [Google 定价](https://ai.google.dev/gemini-api/docs/pricing) · [Lyria 实验说明](https://github.com/google-gemini/cookbook/blob/main/quickstarts/Get_started_LyriaRealTime.ipynb)
 
 ## 在游戏里读取结果
 
