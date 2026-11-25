@@ -4,21 +4,27 @@
 
 一个收集免费游戏音频工具的 Agent Skill，适用于 Codex 和 Claude Code。收录范围包括本地免费合成、可免费使用的素材，以及提供免费额度的云端模型。
 
-告诉 Agent「给抓娃娃机做投币音和抓取成功提示」，它会先找游戏里能复用的文件，再为缺少的事件合成或检索音频，返回文件和事件映射。
+## 复制这段话给 Agent
 
-## 从第一个 WAV 开始
+在 Codex 或 Claude Code 里打开你的游戏项目，把下面这段话发给它。
 
-在游戏项目根目录安装。基础音效需要 Python 3.10+、Node.js 18+ 和 npm。
+```text
+请从 https://github.com/YakirLove/game-audio-free 把这个 Skill 安装到当前游戏项目。
+然后用它做一个投币音效，保存到 assets/audio/，把 WAV 文件路径发给我试听。
+```
+
+投币音效在本地生成，无需 API 密钥。你也可以把「投币音效」换成游戏里需要的其他声音。
+
+<details>
+<summary>手动安装与终端示例</summary>
+
+在游戏项目根目录运行以下命令，并在安装器中选择你的 Agent。基础音效需要 Python 3.10+、Node.js 18+ 和 npm。
 
 ```sh
 npx skills add YakirLove/game-audio-free
 ```
 
-在安装器中选择使用的 Agent。重新打开项目会话，输入：
-
-> 用 game-audio-free 给抓娃娃机制作投币和抓取成功两个音效。事件名用 claw.coin.insert 和 claw.grab.success，放到 assets/audio/。
-
-也可以在终端直接跑同一条流程。以下是 Codex 的项目级安装路径，Claude Code 可使用 `.claude/skills/game-audio-free/scripts`。
+下面用终端为抓娃娃机生成投币和抓取成功两个音效。示例使用 Codex 的项目级安装路径，Claude Code 可使用 `.claude/skills/game-audio-free/scripts`。
 
 ```sh
 S=".agents/skills/game-audio-free/scripts"
@@ -27,6 +33,8 @@ python3 "$S/game_audio_free.py" synth claw.grab.success victory
 ```
 
 打开 `assets/audio/claw-coin-insert.wav` 就能听到第一枚游戏币。成功提示保存在 `claw-grab-success.wav`。这两条命令首次运行时按需获取 plinkfx，后续遇到相同请求会复用已校验的文件。
+
+</details>
 
 ## 五类声音
 

@@ -4,21 +4,27 @@
 
 An Agent Skill for Codex and Claude Code that brings together free game audio tools: local synthesizers, free-to-use recordings, and cloud models with a free tier.
 
-Ask for a coin sound and a victory cue for a claw machine. The agent checks the game for reusable assets, makes or finds the missing sounds, and returns their paths and event IDs.
+## Copy this message to your agent
 
-## Make your first WAV
+Open your game project in Codex or Claude Code and send this message.
 
-Run this in the root of your game project. Basic effects require Python 3.10+, Node.js 18+ and npm.
+```text
+Install the skill from https://github.com/YakirLove/game-audio-free in this game project.
+Then use it to make a coin sound, save it in assets/audio/, and give me the WAV file path so I can listen.
+```
+
+The coin sound is generated locally and needs no API key. Replace “a coin sound” with another sound your game needs.
+
+<details>
+<summary>Manual installation and terminal example</summary>
+
+Run this in the root of your game project and select your agent in the installer. Basic effects require Python 3.10+, Node.js 18+ and npm.
 
 ```sh
 npx skills add YakirLove/game-audio-free
 ```
 
-Select your agent in the installer. Open a fresh session in the project and try:
-
-> Use game-audio-free to make a coin sound and a victory cue for my claw machine. Use the events claw.coin.insert and claw.grab.success. Save them in assets/audio/.
-
-For the same result in a terminal, use the project-local Codex path below. For Claude Code, set `S` to `.claude/skills/game-audio-free/scripts`.
+To generate a coin sound and a victory cue for a claw machine, use the project-local Codex path below. For Claude Code, set `S` to `.claude/skills/game-audio-free/scripts`.
 
 ```sh
 S=".agents/skills/game-audio-free/scripts"
@@ -27,6 +33,8 @@ python3 "$S/game_audio_free.py" synth claw.grab.success victory
 ```
 
 Play `assets/audio/claw-coin-insert.wav` or `assets/audio/claw-grab-success.wav`. The first render fetches the plinkfx CLI on demand. Repeating a matching request reuses the verified asset.
+
+</details>
 
 ## Choose a sound
 
